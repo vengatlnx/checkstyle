@@ -1,0 +1,28 @@
+#!/bin/bash
+
+################################################################################
+##                                                                            ##
+##                           JAVA CHECK STYLE                                 ##
+##                                                                            ##
+################################################################################
+
+file="checkstyle.jar"
+config="*.xml"
+
+if [ ! -f $file ]
+then
+    echo "checkstyle not found"
+    read -p "Would you like to downlad (y|n)? " choice 
+    case "$choice" in 
+	y|Y ) wget http://sourceforge.net/projects/checkstyle/files/latest/download?source=files ;;
+	n|N ) exit ;;
+    esac
+    mv "download?source=files" $file
+fi
+
+if [ "$#" -eq 2 ]
+then
+    java -jar $file -c $1 $2
+else
+    java -jar $file -c google-check.xml $1
+fi
